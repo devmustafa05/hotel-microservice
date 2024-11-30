@@ -23,6 +23,10 @@ namespace HotelManager.Application.Interfaces.Repositories
                                    Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
                                    Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
                                    bool enableTracking = false);
+        Task<IQueryable<T>> GetWhere(Expression<Func<T, bool>> predicate = null,
+                                 Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+                                 Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+                                 bool enableTracking = false);
         Task<IList<T>> GetAllAsyncByPaging(Expression<Func<T, bool>> predicate = null,
                                   Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
                                   Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
