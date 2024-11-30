@@ -9,9 +9,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{2294B0A7-7D70-466A-BDF8-4F576817F25C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManager.Application2", "Core\HotelManager.Application2\HotelManager.Application2.csproj", "{609AA0FF-8166-45E8-B11F-DA1EEEF86AE1}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{609AA0FF-8166-45E8-B11F-DA1EEEF86AE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{609AA0FF-8166-45E8-B11F-DA1EEEF86AE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{609AA0FF-8166-45E8-B11F-DA1EEEF86AE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{609AA0FF-8166-45E8-B11F-DA1EEEF86AE1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{609AA0FF-8166-45E8-B11F-DA1EEEF86AE1} = {11A7EC41-A75D-4AB8-8A67-BAB7F1C8F570}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {897E7AAF-79B1-4DB9-9B93-C448D2D81BAD}
