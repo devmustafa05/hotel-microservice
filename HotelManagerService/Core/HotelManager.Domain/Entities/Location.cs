@@ -16,7 +16,7 @@ namespace HotelManager.Domain.Entities
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public int CityId { get; set; }
-        public  virtual City City { get; set; }
+        public  City City { get; set; }
         public int DistrictId { get; set; }
         public  District District { get; set; }
         public ICollection<ContactLocationMapping>? LocationHotelLocations { get; set; }

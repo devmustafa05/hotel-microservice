@@ -27,8 +27,7 @@ namespace HotelManager.Persistence.Configurations
                 .HasColumnType("timestamp");
 
             builder.HasIndex(x => x.Name)
-                .HasDatabaseName("IX_Hotel_Official_Name")
-                .IsUnique();
+                .HasDatabaseName("IX_Hotel_Official_Name");
 
             var currentDate = DateTime.Now;
 
