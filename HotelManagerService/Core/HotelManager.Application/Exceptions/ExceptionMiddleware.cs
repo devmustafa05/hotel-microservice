@@ -42,6 +42,7 @@ namespace HotelManager.Application.Exceptions
             List<string> errors = new()
             {
                 $"Error Message: {exception.Message}",
+                // TODO: Mustafa bunu elestic e loglıcam
                 $"Error Description: {exception.InnerException?.ToString()}"
             };
 
@@ -57,7 +58,8 @@ namespace HotelManager.Application.Exceptions
            exception switch
            {
                BadRequestException => StatusCodes.Status400BadRequest,
-               NotFoundException => StatusCodes.Status400BadRequest,
+              // NotFoundException => StatusCodes.Status400BadRequest,
+               NotFoundException => StatusCodes.Status404NotFound,
                ValidationException => StatusCodes.Status422UnprocessableEntity,
                _ => StatusCodes.Status500InternalServerError
            };

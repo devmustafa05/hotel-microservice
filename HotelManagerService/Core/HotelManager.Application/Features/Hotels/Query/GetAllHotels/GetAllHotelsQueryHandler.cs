@@ -1,5 +1,4 @@
-﻿// using HotelManager.Application.DTOs;
-using HotelManager.Application.DTOs.Hotels;
+﻿using HotelManager.Application.DTOs.Hotels;
 using HotelManager.Application.Interfaces.AutoMapper;
 using HotelManager.Application.Interfaces.UnitOfWorks;
 using HotelManager.Domain.Entities;
@@ -12,21 +11,19 @@ namespace HotelManager.Application.Features.Hotels.Query.GetAllHotels
     {
         IUnitOfWork unitofWork;
         IMapper mapper;
-
         public GetAllHotelsQueryHandler(IUnitOfWork unitofWork, IMapper mapper)
         {
             this.unitofWork = unitofWork;
             this.mapper = mapper;
         }
-
         public async Task<IList<GetAllHotelsQueryResponse>> Handle(GetAllHotelsQueryRequest request, CancellationToken cancellationToken)
         {
             var hotels = await unitofWork.GetReadRepostory<Hotel>().GetAllAsync(
               predicate: x => x.IsActive && !x.IsDeleted,
                include: q => q
-                .Include(h => h.HotelOfficials)
-                .Include(h => h.HotelContacts)
-                .Include(h => h.HotelLocationContacts));
+                .Include(h => h.HotelOfficials));
+              //  .Include(h => h.HotelContacts));
+               // .Include(h => h.HotelLocationContacts));
 
             await unitofWork.GetWriteRepostory<Hotel>().AddARangAsync(hotels);
 

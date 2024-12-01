@@ -1,10 +1,5 @@
 ﻿using FluentValidation;
 using HotelManager.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelManager.Application.Features.Hotels.Command.CreateHotel
 {
@@ -20,6 +15,16 @@ namespace HotelManager.Application.Features.Hotels.Command.CreateHotel
             RuleFor(x => x.Content)
                 .NotNull()
                 .NotEmpty();
+
+            RuleFor(x => x.Content)
+                  .Matches(@"^90\d{10}$") 
+                  .WithMessage("The phone number must be in a valid format. Example: 90xxxxxxxxxx")
+                  .When(x => x.HotelContactType == HotelContactType.PhoneNumber);
+
+            RuleFor(x => x.Content)
+               .EmailAddress()
+               .WithMessage("The email address must be in a valid format.")
+               .When(x => x.HotelContactType == HotelContactType.EmailAddress); 
         }
     }
 }

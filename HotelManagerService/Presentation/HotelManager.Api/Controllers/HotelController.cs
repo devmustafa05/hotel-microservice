@@ -27,14 +27,12 @@ namespace HotelManager.Api.Controllers
             return Ok(response);
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GetAllHotelById(int id)
         {
             var response = await mediator.Send(new GetHotelByIdQueryRequest() { HotelId = id });
             return Ok(response);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> CreateHotel(CreateHotelCommandRequest request)

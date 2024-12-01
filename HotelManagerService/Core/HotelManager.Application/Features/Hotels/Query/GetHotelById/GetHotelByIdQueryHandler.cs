@@ -1,24 +1,17 @@
 ﻿using HotelManager.Application.DTOs.Hotels;
-using HotelManager.Application.Features.Hotels.Query.GetAllHotels;
 using HotelManager.Application.Interfaces.AutoMapper;
 using HotelManager.Application.Interfaces.UnitOfWorks;
 using HotelManager.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SendGrid.Helpers.Errors.Model;
 
 namespace HotelManager.Application.Features.Hotels.Query.GetHotelById
 {
     public class GetHotelByIdQueryHandler : IRequestHandler<GetHotelByIdQueryRequest, GetHotelByIdQueryResponse>
     {
-
         IUnitOfWork unitofWork;
         IMapper mapper;
-
         public GetHotelByIdQueryHandler(IUnitOfWork unitofWork, IMapper mapper)
         {
             this.unitofWork = unitofWork;
@@ -30,15 +23,21 @@ namespace HotelManager.Application.Features.Hotels.Query.GetHotelById
             predicate: x => x.IsActive && !x.IsDeleted
                           && x.Id == request.HotelId,
                include: q => q
-               .Include(h => h.HotelOfficials)
-               .Include(h => h.HotelContacts)
-               .Include(h => h.HotelLocationContacts));
+               .Include(h => h.HotelOfficials));
+             //  .Include(h => h.HotelContacts));
+              // .Include(h => h.HotelLocationContacts));
 
             mapper.Map<HotelOfficialDto, HotelOfficial>(new List<HotelOfficial>());
             mapper.Map<HotelContactsDto, HotelContact>(new List<HotelContact>());
             mapper.Map<HotelLocationContactDto, HotelLocationContact>(new List<HotelLocationContact>());
 
             var map = mapper.Map<GetHotelByIdQueryResponse, Hotel>(hotel);
+
+            if (map == null)
+            {
+                throw new NotFoundException("Hotel not found");
+            }
+
             return map;
         }
     }
