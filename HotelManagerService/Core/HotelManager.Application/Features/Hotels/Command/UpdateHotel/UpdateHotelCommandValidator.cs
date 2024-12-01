@@ -1,17 +1,10 @@
 ﻿using FluentValidation;
-using HotelManager.Domain.Entities;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelManager.Application.Features.Hotels.Command.CreateHotel
 {
-    public class CreateHotelCommandValidator : AbstractValidator<CreateHotelCommandRequest>
+    public class UpdateHotelCommandValidator : AbstractValidator<CreateHotelCommandRequest>
     {
-        public CreateHotelCommandValidator()
+        public UpdateHotelCommandValidator()
         {
             RuleFor(x => x.Name)
              .NotNull()
@@ -38,13 +31,6 @@ namespace HotelManager.Application.Features.Hotels.Command.CreateHotel
             RuleFor(x => x.HotelLocationContacts)
            .ForEach(contact => contact.SetValidator(new HotelLocationContactCreationRequestValidator()));
 
-
-
-            // RuleFor(x => x.HotelOfficials.)
-            //.GreaterThanOrEqualTo(0)
-            //.NotEmpty();
-
         }
-        
     }
 }

@@ -37,7 +37,7 @@ namespace HotelManager.Persistence.Context
 
             foreach (var entity in ChangeTracker.Entries<EntityBase>().Where(x => x.State == EntityState.Added).ToList())
             {
-                entity.Entity.CreatedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, currentDate.Second, DateTimeKind.Local);
+                entity.Entity.CreatedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, 0, DateTimeKind.Local);
                 entity.Entity.IsDeleted = false;
                 entity.Entity.IsActive = true;
                 entity.Entity.AddByUserId = userId;
@@ -47,7 +47,7 @@ namespace HotelManager.Persistence.Context
             foreach (var entity in ChangeTracker.Entries<EntityBase>().Where(x => x.State == EntityState.Modified).ToList())
             {
                 entity.Entity.CreatedDate = entity.Entity.CreatedDate;
-                entity.Entity.UpdatedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, currentDate.Second, DateTimeKind.Local);
+                entity.Entity.UpdatedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, 0, DateTimeKind.Local);
                 entity.Entity.UpdatedByUserId = userId;
             }
 
