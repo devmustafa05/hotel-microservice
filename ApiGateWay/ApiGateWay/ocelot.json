@@ -1,4 +1,76 @@
 {
   "Routes": [
+
+    // GetAllHotels
+
+    {
+      "DownstreamPathTemplate": "/api/Hotel/GetAllHotels",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6001
+        }
+      ],
+      "UpstreamPathTemplate": "/hotels",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get" ]
+    },
+
+    // GetAllHotelById
+    {
+      "DownstreamPathTemplate": "/api/Hotel/GetAllHotelById?id={id}",
+      "DownstreamQueryStringParameters": {
+        "id": "0"
+      },
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6001
+        }
+      ],
+      "UpstreamPathTemplate": "/hotels/{id}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get" ]
+    },
+
+
+    // CreateHotel
+    {
+      "DownstreamPathTemplate": "/api/Hotel/CreateHotel",
+
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6001
+        }
+      ],
+      // "UpstreamPathTemplate": "hotels",
+      "UpstreamPathTemplate": "/hotels/create",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+
+
+    // identity service
+
+    {
+      "DownstreamPathTemplate": "/Aut/Login",
+      "DownstreamQueryStringParameters": {
+        "id": "0"
+      },
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+
+      "UpstreamPathTemplate": "/aut",
+      "UpstreamHttpMethod": [ "Post" ]
+    }
   ]
 }

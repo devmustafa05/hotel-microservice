@@ -36,6 +36,7 @@ namespace HotelManager.Application.Features.Hotels.Command.UpdateHotel
             var map = mapper.Map<Hotel, UpdateHotelCommandRequest>(request);
             map.IsActive = true;
             map.IsDeleted = false;
+            map.CreatedDate = hotel.CreatedDate;
 
             await unitOfWork.GetWriteRepostory<Hotel>().UpdateAsync(map);
             var result = await unitOfWork.SaveAsync();

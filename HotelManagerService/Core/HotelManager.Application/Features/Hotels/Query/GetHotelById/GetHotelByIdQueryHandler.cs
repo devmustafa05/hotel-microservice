@@ -23,9 +23,9 @@ namespace HotelManager.Application.Features.Hotels.Query.GetHotelById
             predicate: x => x.IsActive && !x.IsDeleted
                           && x.Id == request.HotelId,
                include: q => q
-               .Include(h => h.HotelOfficials));
-             //  .Include(h => h.HotelContacts));
-              // .Include(h => h.HotelLocationContacts));
+               .Include(h => h.HotelOfficials)
+               .Include(h => h.HotelContacts)
+               .Include(h => h.HotelLocationContacts));
 
             mapper.Map<HotelOfficialDto, HotelOfficial>(new List<HotelOfficial>());
             mapper.Map<HotelContactsDto, HotelContact>(new List<HotelContact>());
