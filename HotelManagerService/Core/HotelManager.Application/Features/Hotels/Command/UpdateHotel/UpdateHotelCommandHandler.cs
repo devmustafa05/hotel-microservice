@@ -1,16 +1,9 @@
-﻿using HotelManager.Application.DTOs.Hotels;
-using HotelManager.Application.Features.Hotels.Query.GetAllHotels;
-using HotelManager.Application.Features.Hotels.Query.GetHotelById;
+﻿using HotelManager.Application.Features.Hotels.Rules;
 using HotelManager.Application.Interfaces.AutoMapper;
 using HotelManager.Application.Interfaces.UnitOfWorks;
 using HotelManager.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SendGrid.Helpers.Errors.Model;
 
 namespace HotelManager.Application.Features.Hotels.Command.UpdateHotel
 {
@@ -18,18 +11,27 @@ namespace HotelManager.Application.Features.Hotels.Command.UpdateHotel
     {
         private IUnitOfWork unitOfWork;
         private IMapper mapper;
-        public UpdateHotelCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly HotelRules hotelRules;
+        public UpdateHotelCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, HotelRules hotelRules)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
+            this.hotelRules = hotelRules;
 
         }
-
         public async Task<Unit> Handle(UpdateHotelCommandRequest request, CancellationToken cancellationToken)
-        {  
-            var hotel = await unitOfWork.GetReadRepostory<Hotel>().GetAsync(
-              predicate: x => x.IsActive && !x.IsDeleted
-                            && x.Id == request.Id);
+        {
+            var queryableHotels = await unitOfWork.GetReadRepostory<Hotel>()
+                                .GetWhere(predicate: x => x.IsActive && !x.IsDeleted);
+
+            await hotelRules.HotelTitleMustNotBeSame(queryableHotels, request.Name);
+
+            var hotel = queryableHotels.FirstOrDefault(x => x.Id == request.Id);
+
+            if (hotel == null)
+            {
+                throw new NotFoundException("Hotel not found");
+            }
 
             var map = mapper.Map<Hotel, UpdateHotelCommandRequest>(request);
             map.IsActive = true;
@@ -42,8 +44,6 @@ namespace HotelManager.Application.Features.Hotels.Command.UpdateHotel
             {
                 throw new Exception("Hotel updated failed. Changes could not be saved.");
             }
-            return Unit.Value;
-
             return Unit.Value;
         }
     }

@@ -1,10 +1,8 @@
-﻿// using HotelManager.Application.DTOs;
-using HotelManager.Application.DTOs.Hotels;
-using HotelManager.Application.Interfaces.AutoMapper;
-using HotelManager.Application.Interfaces.UnitOfWorks;
+﻿using HotelManager.Application.Interfaces.UnitOfWorks;
 using HotelManager.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Errors.Model;
 
 namespace HotelManager.Application.Features.Hotels.Command.DeleteHotel
 
@@ -28,10 +26,16 @@ namespace HotelManager.Application.Features.Hotels.Command.DeleteHotel
               .Include(h => h.HotelContacts)
               .Include(h => h.HotelLocationContacts));
 
+
+            if (hotel == null)
+            {
+                throw new NotFoundException("Hotel not found");
+            }
+
             await unitofwork.GetWriteRepostory<Hotel>().SoftDeleteAsync(hotel);
 
             var hotelOfficials = hotel.HotelOfficials.ToList();
-            if(hotelOfficials is not null && hotelOfficials.Count() > 0)
+            if (hotelOfficials is not null && hotelOfficials.Count() > 0)
             {
                 await unitofwork.GetWriteRepostory<HotelOfficial>().SoftDeleteRangeAsync(hotelOfficials);
             }
