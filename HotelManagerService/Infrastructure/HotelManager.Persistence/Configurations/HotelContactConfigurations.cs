@@ -2,11 +2,6 @@
 using HotelManager.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelManager.Persistence.Configurations
 {
@@ -25,8 +20,7 @@ namespace HotelManager.Persistence.Configurations
                 .HasColumnType("timestamp");
 
             builder.HasIndex(x => x.Content)
-            .HasDatabaseName("IX_Hotel_Contact_Content")
-            .IsUnique();
+                .HasDatabaseName("IX_Hotel_Contact_Content");
 
             var currentDate = DateTime.Now;
 
