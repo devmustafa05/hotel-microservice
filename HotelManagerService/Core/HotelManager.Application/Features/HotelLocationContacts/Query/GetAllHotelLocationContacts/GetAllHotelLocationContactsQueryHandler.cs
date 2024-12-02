@@ -26,10 +26,10 @@ namespace HotelManager.Application.Features.HotelOfficials.Query.GetAllHotelLoca
 		}
 		public async Task<IList<GetAllHotelLocationContactsQueryResponse>> Handle(GetAllHotelLocationContactsQueryRequest request, CancellationToken cancellationToken)
         {
-			var HotelLocationContacts = await unitofWork.GetReadRepostory<HotelLocationContact>().GetAllAsync(
+			var hotelLocationContacts = await unitofWork.GetReadRepostory<HotelLocationContact>().GetAllAsync(
 			  predicate: x => x.IsActive && !x.IsDeleted);
 
-			var map = mapper.Map<GetAllHotelLocationContactsQueryResponse, HotelLocationContact>(HotelLocationContacts);
+			var map = mapper.Map<GetAllHotelLocationContactsQueryResponse, HotelLocationContact>(hotelLocationContacts);
 			return map;
         }
     }

@@ -29,8 +29,11 @@ namespace HotelManager.Application.Features.HotelOfficials.Query.GetAllHotelLoca
 		}
 		public async Task<IList<GetAllLocationsQueryResponse>> Handle(GetAllLocationsQueryRequest request, CancellationToken cancellationToken)
         {
-			var locations = await unitofWork.GetReadRepostory<Location>().GetAllAsync(
-			  predicate: x => x.IsActive && !x.IsDeleted);
+            var locations = await unitofWork.GetReadRepostory<Location>().GetAllAsync(
+              predicate: x => x.IsActive && !x.IsDeleted,
+              include: q => q
+                .Include(h => h.City)
+                .Include(h => h.District));
 
             mapper.Map<CityDto, City>(new City());
             mapper.Map<DistrictDto, District>(new District());

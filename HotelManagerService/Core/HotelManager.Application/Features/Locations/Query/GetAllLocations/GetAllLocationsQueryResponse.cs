@@ -11,6 +11,7 @@ namespace HotelManager.Application.Features.HotelOfficials.Query.GetAllHotelLoca
 {
     public class GetAllLocationsQueryResponse
     {
+        public int Id { get; set; }
         public required string Name { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
