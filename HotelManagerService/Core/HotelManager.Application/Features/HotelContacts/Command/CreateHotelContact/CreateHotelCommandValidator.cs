@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
-using HotelManager.Application.Features.HotelContacts.Command.CreateHotelContact;
 using HotelManager.Domain.Enums;
 
-namespace HotelManager.Application.Features.Hotels.Command.CreateHotelContact
+namespace HotelManager.Application.Features.HotelContacts.Command.CreateHotelContact
 {
     public class CreateHotelContactCommandValidator : AbstractValidator<CreateHotelContactCommandRequest>
     {

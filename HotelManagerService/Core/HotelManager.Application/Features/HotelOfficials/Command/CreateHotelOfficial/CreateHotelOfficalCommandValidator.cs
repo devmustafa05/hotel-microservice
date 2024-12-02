@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
-using HotelManager.Application.Features.HotelContacts.Command.CreateHotelContact;
 using HotelManager.Application.Features.HotelOfficials.Command.CreateHotelOfficial;
-using HotelManager.Domain.Enums;
 
 namespace HotelManager.Application.Features.Hotels.Command.CreateHotelContact
 {
