@@ -27,10 +27,10 @@ namespace HotelManager.Persistence
             // opt.UseLazyLoadingProxies() 
             // .UseNpgsql(configuration.GetConnectionString("DefaultConnectionStrings")));
           
-            services.AddScoped(typeof(IReadRepository<>), typeof(ReadRespostory<>));
-            services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+            services.AddTransient(typeof(IReadRepository<>), typeof(ReadRespostory<>));
+            services.AddTransient(typeof(IWriteRepository<>), typeof(WriteRepository<>));
            
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
     }
 }

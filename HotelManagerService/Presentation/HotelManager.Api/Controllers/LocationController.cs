@@ -25,7 +25,7 @@ namespace HotelManager.Api.Controllers
             this.mediator = mediator;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllLocationContacts()
+        public async Task<IActionResult> GetAllLocations()
         {
             var response = await mediator.Send(new GetAllLocationsQueryRequest());
             return Ok(response);
@@ -39,21 +39,21 @@ namespace HotelManager.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateLocationContact(CreateLocationCommandRequest request)
+        public async Task<IActionResult> CreateLocation(CreateLocationCommandRequest request)
         {
             var response = await mediator.Send(request);
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateLocationContact(UpdateLocationCommandRequest request)
+        public async Task<IActionResult> UpdateLocation(UpdateLocationCommandRequest request)
         {
             var response = await mediator.Send(request);
             return Ok(response);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteLocationOfficial(DeleteLocationContactRequest request)
+        public async Task<IActionResult> DeleteLocation(DeleteLocationContactRequest request)
         {
             await mediator.Send(request);
             return Ok();

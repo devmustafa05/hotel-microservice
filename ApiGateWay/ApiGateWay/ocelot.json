@@ -53,6 +53,24 @@
     },
 
 
+    // GetAllLocation
+    {
+      "DownstreamPathTemplate": "/api/location/getalllocations",
+
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6001
+        }
+      ],
+
+      "UpstreamPathTemplate": "/locations",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+
     // identity service
 
     {

@@ -21,9 +21,9 @@ namespace HotelManager.Application.Features.Hotels.Query.GetAllHotels
             var hotels = await unitofWork.GetReadRepostory<Hotel>().GetAllAsync(
               predicate: x => x.IsActive && !x.IsDeleted,
                include: q => q
-                .Include(h => h.HotelOfficials));
-              //  .Include(h => h.HotelContacts));
-               // .Include(h => h.HotelLocationContacts));
+                .Include(h => h.HotelOfficials)
+                .Include(h => h.HotelContacts)
+                .Include(h => h.HotelLocationContacts));
 
             await unitofWork.GetWriteRepostory<Hotel>().AddARangAsync(hotels);
 
