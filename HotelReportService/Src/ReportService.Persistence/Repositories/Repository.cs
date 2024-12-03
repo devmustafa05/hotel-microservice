@@ -48,10 +48,11 @@ namespace ReportService.Persistence.Repositories
             }
             return null;
         }
-        public async Task UpdateAsync(ObjectId id, T entity)
+        public async Task<bool> UpdateAsync(ObjectId id, T entity)
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
             await _collection.ReplaceOneAsync(filter, entity);
+            return true;
         }
         public async Task DeleteAsync(ObjectId id)
         {
