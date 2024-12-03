@@ -1,5 +1,4 @@
 ﻿using MongoDB.Driver;
-using ReportService.Domain.Documents;
 
 namespace ReportService.Persistence.Context
 {
@@ -14,8 +13,9 @@ namespace ReportService.Persistence.Context
         public IMongoCollection<T> GetCollection<T>()
         {
             return database.GetCollection<T>(typeof(T).Name); 
-            // Entity'nin adına göre koleksiyon adı alınıyor
+            
         }
+        // TODO:Mustafa rename collectin name
 
       //  public IMongoCollection<ReportDocument> Reports => database.GetCollection<ReportDocument>("ReportDocuments");
         
