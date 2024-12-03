@@ -11,7 +11,9 @@ namespace HotelManager.Application.Features.Hotels.Command.CreateHotel
         public decimal Longitude { get; set; }
         public List<HotelOfficialCreationRequest>? HotelOfficials { get; set; }
         public List<HotelContactCreationRequest>? HotelContacts { get; set; }
-        public List<HotelLocationContactCreationRequest>? HotelLocationContacts { get; set; }
+        public List<int>? LocationIds { get; set; }
+
+        
 
     }
 }

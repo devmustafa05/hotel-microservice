@@ -16,11 +16,12 @@ namespace HotelManager.Application.Features.LocationReport.Ouery.GetLocationHote
         {
 
             // TODO:Mustafa Buradan devam edicem
+            // buda iptal edilecilir
 
             var contactLocationMapping = await unitofWork.GetReadRepostory<ContactLocationMapping>().GetAllAsync(
               predicate: x => x.IsActive && !x.IsDeleted);
 
-            var hotelLocationContactIds = contactLocationMapping.Select(s => s.HotelLocationContactId).ToList();
+            var hotelLocationContactIds = contactLocationMapping.Select(s => s.HotelId).ToList();
 
 
             var hotelLocationContacts = await unitofWork.GetReadRepostory<HotelLocationContact>().GetAllAsync(

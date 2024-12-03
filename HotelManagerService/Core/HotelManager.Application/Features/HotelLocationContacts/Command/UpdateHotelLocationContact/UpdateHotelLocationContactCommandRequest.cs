@@ -10,9 +10,7 @@ namespace HotelManager.Application.Features.HotelContacts.Command.UpdateHotelCon
 {
     public class UpdateHotelLocationContactCommandRequest : IRequest<Unit>
     {
-        public int Id { get; set; }
-        public required string Name { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public int HotelId { get; set; }
+        public List<int>? LocationIds { get; set; }
     }
 }

@@ -25,19 +25,19 @@ namespace HotelManager.Api.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetLocationContactById(int id)
-        {
-            var response = await mediator.Send(new GetHotelLocationContactByIdQueryRequest() { HotelLocationContacId = id });
-            return Ok(response);
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> GetLocationContactById(int id)
+        //{
+        //    var response = await mediator.Send(new GetHotelLocationContactByIdQueryRequest() { HotelLocationContacId = id });
+        //    return Ok(response);
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> CreateHotelLocationContact(CreateHotelLocationContactCommandRequest request)
-        {
-            var response = await mediator.Send(request);
-            return Ok(response);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> CreateHotelLocationContact(CreateHotelLocationContactCommandRequest request)
+        //{
+        //    var response = await mediator.Send(request);
+        //    return Ok(response);
+        //}
 
         [HttpPut]
         public async Task<IActionResult> UpdateHotelLocationContactContact(UpdateHotelLocationContactCommandRequest request)

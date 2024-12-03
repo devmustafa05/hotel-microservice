@@ -23,15 +23,29 @@ namespace HotelManager.Application.Features.HotelContacts.Command.UpdateHotelCon
 
         public async Task<Unit> Handle(UpdateHotelLocationContactCommandRequest request, CancellationToken cancellationToken)
         {
-            var hotelLocationContact = await unitOfWork.GetReadRepostory<HotelLocationContact>().GetAsync(
-              predicate: x => x.IsActive && !x.IsDeleted
-                            && x.Id == request.Id);
+            var hotelLocationContacts = await unitOfWork.GetReadRepostory<ContactLocationMapping>().GetAllAsync(
+                predicate: x => x.IsActive && !x.IsDeleted
+                            && x.HotelId == request.HotelId);
 
-            var map = mapper.Map<HotelLocationContact, UpdateHotelLocationContactCommandRequest>(request);
-            map.IsActive = true;
-            map.IsDeleted = false;
+            if (request.LocationIds != null)
+            {
+                throw new Exception("Is null empty LocationIds");
+            }
 
-            await unitOfWork.GetWriteRepostory<HotelLocationContact>().UpdateAsync(map);
+            await unitOfWork.GetWriteRepostory<ContactLocationMapping>()
+                .HardDeleteRangeAsync(hotelLocationContacts);
+
+
+            foreach (var locationId in request.LocationIds)
+            {
+                await unitOfWork.GetWriteRepostory<ContactLocationMapping>()
+                    .AddAsync(new()
+                    {
+                        HotelId = request.HotelId,
+                        LocationId = locationId
+                    });
+            }
+           
             var result = await unitOfWork.SaveAsync();
 
             if (result <= 0)
