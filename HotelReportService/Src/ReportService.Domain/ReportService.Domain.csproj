@@ -4,10 +4,15 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AppDesignerFolder>DocumentProperties</AppDesignerFolder>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Bson" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
   </ItemGroup>
 
 </Project>

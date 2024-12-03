@@ -17,8 +17,8 @@ namespace ReportService.Application.Services.ReportService
         }
         public async Task<List<LocationDto>> GetLocation()
         {
-            var locationUrl = configuration["HotelMicroServis:Locations"];
-            locationUrl = string.IsNullOrWhiteSpace(locationUrl) ? "/locations" : locationUrl;
+            var locationUrl = configuration["HotelMicroService:Locations"];
+            locationUrl = string.IsNullOrWhiteSpace(locationUrl) ? "/api/report/getreport" : locationUrl;
             var response = await externalApiService.GetDataAsync(locationUrl);
             var jsonResponse = JsonConvert.DeserializeObject<List<LocationDto>>(response);
             return jsonResponse;

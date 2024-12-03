@@ -29,7 +29,7 @@ namespace ReportService.Persistence.Repositories
         /// <param name="id"></param>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task UpdateAsync(ObjectId id, T entity);
+        Task<bool> UpdateAsync(ObjectId id, T entity);
         /// <summary>
         /// 
         /// </summary>

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelManager.Application.DTOs.Messaging
+namespace ReportService.Application.DTOs.ResultLocationReport
 {
-    public class CreateReporMessageCommandDto
+    public class HotelLocationContactDto
     {
-        public int LocationId { get; set; }
-        public required string ReportDocumentId { get; set; }
+        public int Id { get; set; }
+        public string? Name { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
     }

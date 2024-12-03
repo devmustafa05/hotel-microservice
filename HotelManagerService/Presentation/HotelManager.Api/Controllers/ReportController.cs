@@ -33,7 +33,8 @@ namespace HotelManager.Api.Controllers
             CreateReportMessageCommandRequest request = new CreateReportMessageCommandRequest()
             {
                 QueueName = reportServisQueue,
-                LocationId = req.Id,
+                LocationId = req.LocationId,
+                ReportDocumentId = req.ReportDocumentId,
                 Longitude = req.Longitude,
                 Latitude = req.Latitude
             };
@@ -53,6 +54,7 @@ namespace HotelManager.Api.Controllers
             CreateReportMessageCommandRequest request = new CreateReportMessageCommandRequest()
             {
                 QueueName = reportServisQueue,
+                ReportDocumentId = MongoDB.Bson.ObjectId.GenerateNewId().ToString(),
                 LocationId = 1,
                 Longitude = 24,
                 Latitude = 35
