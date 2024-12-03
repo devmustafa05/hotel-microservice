@@ -4,6 +4,7 @@ using MassTransit;
 using ReportService.Api.Consumers;
 using ReportService.Application.ExternalServices;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -48,18 +49,17 @@ builder.Services.AddMassTransit(x =>
 builder.Services.AddMassTransitHostedService();
 
 builder.Services.AddPersistence(builder.Configuration);
-builder.Services.AddApplication();
+builder.Services.AddApplication(builder.Configuration);
 
 
-builder.Services.AddTransient<IExternalApiService, ExternalApiService>();
-builder.Services.AddHttpClient<IExternalApiService, ExternalApiService>(client =>
-{
-    var hotelMicroServisBaseUrl = builder.Configuration["HotelMicroServis:BaseUrl"];
-    hotelMicroServisBaseUrl = string.IsNullOrWhiteSpace(hotelMicroServisBaseUrl) ? "http://localhost:5001" : hotelMicroServisBaseUrl;
-    client.BaseAddress = new Uri(hotelMicroServisBaseUrl);
-    client.DefaultRequestHeaders.Add("Authorization", "Bearer your_token"); 
-});
-
+//builder.Services.AddTransient<IExternalApiService, ExternalApiService>();
+//builder.Services.AddHttpClient<IExternalApiService, ExternalApiService>(client =>
+//{
+//    var hotelMicroServisBaseUrl = builder.Configuration["HotelMicroServis:BaseUrl"];
+//    hotelMicroServisBaseUrl = string.IsNullOrWhiteSpace(hotelMicroServisBaseUrl) ? "http://localhost:5001" : hotelMicroServisBaseUrl;
+//    client.BaseAddress = new Uri(hotelMicroServisBaseUrl);
+//    client.DefaultRequestHeaders.Add("Authorization", "Bearer your_token"); 
+//});
 
 var app = builder.Build();
 

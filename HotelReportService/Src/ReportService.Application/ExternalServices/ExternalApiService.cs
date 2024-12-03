@@ -38,6 +38,9 @@ namespace ReportService.Application.ExternalServices
 
                 if(response.StatusCode == HttpStatusCode.OK && response.IsSuccessStatusCode)
                 {
+                    var responseMessage = await response.Content.ReadAsStringAsync();
+
+
                     return true;
                 }
                 return false;

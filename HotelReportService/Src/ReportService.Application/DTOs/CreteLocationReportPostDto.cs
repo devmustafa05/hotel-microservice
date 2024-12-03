@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ReportService.Application.DTOs
 {
-    public class CreteLocationRequestDto
+    public class CreteLocationReportPostDto
     {
         public int LocationId { get; set; }
+        public ObjectId ReportDocumentId { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
-
     }
 }

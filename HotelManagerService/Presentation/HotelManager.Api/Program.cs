@@ -1,7 +1,12 @@
-using HotelManager.Persistence;
+﻿using HotelManager.Persistence;
 using HotelManager.Application;
 using HotelManager.Mapper;
 using HotelManager.Application.Exceptions;
+using MassTransit;
+using HotelManager.Infrastructure;
+using HotelManager.Api;
+using GreenPipes;
+using HotelManager.Application.Features.LocationReport.CreateReport;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +24,41 @@ builder.Configuration.SetBasePath(evn.ContentRootPath)
     .AddJsonFile("appsettings.json", optional: false)
     .AddJsonFile($"appsettings.{evn.EnvironmentName}.json", optional: true);
 
+
+builder.Services.AddTransient<CreateReportMessageConsumer>();
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<CreateReportMessageConsumer>(context =>
+    {
+      
+    });
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        var rabbitMqHost = builder.Configuration["RabbitMQ:Host"];
+        var rabbitMqUsername = builder.Configuration["RabbitMQ:Username"];
+        var rabbitMqPassword = builder.Configuration["RabbitMQ:Password"];
+
+        var reportServisQueue = builder.Configuration["RabbitMQ:Queues:ReportServis"];
+
+        cfg.Host(rabbitMqHost, h =>
+        {
+            h.Username(rabbitMqUsername);
+            h.Password(rabbitMqPassword);
+        });
+
+        cfg.ReceiveEndpoint(reportServisQueue, e =>
+        {
+            // e.Consumer<CreateReporMessageCommandConsumer>();
+            e.Consumer<CreateReportMessageConsumer>(context);
+        });
+    });
+});
+
+builder.Services.AddMassTransitHostedService();
+
 builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddCustomMapper();
 
