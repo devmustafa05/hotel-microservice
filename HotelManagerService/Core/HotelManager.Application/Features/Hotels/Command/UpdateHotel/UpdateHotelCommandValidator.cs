@@ -26,11 +26,7 @@ namespace HotelManager.Application.Features.Hotels.Command.CreateHotel
                .ForEach(contact => contact.SetValidator(new HotelOfficialCreationRequestValidator()));
 
             RuleFor(x => x.HotelContacts)
-            .ForEach(contact => contact.SetValidator(new HotelContactCreationRequestValidator()));
-
-            RuleFor(x => x.HotelLocationContacts)
-           .ForEach(contact => contact.SetValidator(new HotelLocationContactCreationRequestValidator()));
-
+                .ForEach(contact => contact.SetValidator(new HotelContactCreationRequestValidator()));
         }
     }
 }

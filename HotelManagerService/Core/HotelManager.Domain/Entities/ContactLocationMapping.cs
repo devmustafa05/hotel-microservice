@@ -11,8 +11,13 @@ namespace HotelManager.Domain.Entities
     {
         public int LocationId { get; set; }
         public  Location Location { get; set; }
-        public int HotelLocationContactId { get; set; }
-        public  HotelLocationContact HotelLocationContact { get; set; }
-        
+        public int HotelId { get; set; }
+        public Hotel Hotel { get; set; }
+
+        // TODO: Mustafa
+        // When transitioning to version 3.0, this section will be activated.
+        //public int HotelLocationContactId { get; set; }
+        //public  HotelLocationContact HotelLocationContact { get; set; }
+
     }
 }

@@ -25,7 +25,7 @@ namespace HotelManager.Persistence.Configurations
             ContactLocationMapping contactLocationMapping = new ContactLocationMapping();
 
             contactLocationMapping.Id = 1;
-            contactLocationMapping.HotelLocationContactId = 1;
+            contactLocationMapping.HotelId = 1;
             contactLocationMapping.LocationId = 1;
 
             contactLocationMapping.IsActive = true;

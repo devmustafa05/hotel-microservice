@@ -2,12 +2,7 @@
 using MongoDB.Driver;
 using ReportService.Domain.Common;
 using ReportService.Persistence.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReportService.Persistence.Repositories
 {
@@ -53,10 +48,11 @@ namespace ReportService.Persistence.Repositories
             }
             return null;
         }
-        public async Task UpdateAsync(ObjectId id, T entity)
+        public async Task<bool> UpdateAsync(ObjectId id, T entity)
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
             await _collection.ReplaceOneAsync(filter, entity);
+            return true;
         }
         public async Task DeleteAsync(ObjectId id)
         {

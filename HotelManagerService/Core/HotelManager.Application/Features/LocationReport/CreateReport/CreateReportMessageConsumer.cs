@@ -1,31 +1,34 @@
-﻿using HotelManager.Application.DTOs.Messaging;
+﻿using HotelManager.Application.DTOs.Hotels;
+using HotelManager.Application.DTOs.Messaging;
+using HotelManager.Application.Features.Hotels.Query.GetAllHotels;
+using HotelManager.Application.Interfaces.AutoMapper;
 using HotelManager.Application.Interfaces.UnitOfWorks;
 using HotelManager.Domain.Entities;
 using HotelManager.Domain.Enums;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using SendGrid;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelManager.Application.Features.LocationReport.CreateReport
 {
     public class CreateReportMessageConsumer : IConsumer<CreateReporMessageCommandDto>
     {
         IUnitOfWork unitofWork;
-        public CreateReportMessageConsumer(IUnitOfWork unitofWork)
+        IMapper mapper;
+        public CreateReportMessageConsumer(IUnitOfWork unitofWork, IMapper mapper)
         {
             this.unitofWork = unitofWork;
+            this.mapper = mapper;
         }
         public async Task Consume(ConsumeContext<CreateReporMessageCommandDto> context)
         {
             try
             {
+
+                // bu ethod basdan yazılacak
+
                 var message = context.Message;
                 var deneme = message;
 
@@ -33,7 +36,7 @@ namespace HotelManager.Application.Features.LocationReport.CreateReport
                         predicate: x => x.IsActive && !x.IsDeleted
                                    && x.LocationId == message.LocationId);
 
-                var hotelLocationContactIds = contactLocationMapping.Select(s => s.HotelLocationContactId).ToList();
+                var hotelLocationContactIds = contactLocationMapping.Select(s => s.HotelId).ToList();
 
                 var hotelLocationContacts = await unitofWork.GetReadRepostory<HotelLocationContact>()
                                                     .GetAllAsync(predicate: x => x.IsActive && !x.IsDeleted
@@ -49,16 +52,37 @@ namespace HotelManager.Application.Features.LocationReport.CreateReport
 
                 var phoneNumbers = hotelContactPhoneNumber.GroupBy(s => s.Content).Select(s => s.Key).ToList();
 
-
                 var hotelCount = hotelIds.Count();
                 var PhoneNumberCount = phoneNumbers.Count();
 
 
+                var hotels = await unitofWork.GetReadRepostory<Hotel>().GetAllAsync(
+                          predicate: x => x.IsActive && !x.IsDeleted
+                                       && hotelIds.Contains(x.Id),
+                           include: q => q
+                            .Include(h => h.HotelOfficials)
+                            .Include(h => h.HotelContacts));
+
+                await unitofWork.GetWriteRepostory<Hotel>().AddARangAsync(hotels);
+
+                mapper.Map<HotelOfficialDto, HotelOfficial>(new List<HotelOfficial>());
+                mapper.Map<HotelContactsDto, HotelContact>(new List<HotelContact>());
+                mapper.Map<HotelLocationContactDto, HotelLocationContact>(new List<HotelLocationContact>());
+
+                var map = mapper.Map<GetAllHotelsQueryResponse, Hotel>(hotels);
+                var mapHotels = map.ToList();
+
 
                 try
                 {
-                    string endpoint = "/LocationReport/ResultLocationReport";
-                    ReportResultDto reportResult = new ReportResultDto();
+                    string endpoint = "/api/LocationReport/ResultLocationReport";
+                    ReportResultDto reportResult = new ReportResultDto()
+                    {
+                        Hotels = mapHotels,
+                        ReportDocumentId = message.ReportDocumentId,
+                        HotelCount = hotelCount,
+                        PhoneCount = phoneNumbers.Count()
+                    };
                     reportResult.HotelCount = hotelCount;
                     reportResult.PhoneCount = phoneNumbers.Count();
 
@@ -78,9 +102,6 @@ namespace HotelManager.Application.Features.LocationReport.CreateReport
                     if (response.StatusCode == HttpStatusCode.OK && response.IsSuccessStatusCode)
                     {
                         var responseMessage = await response.Content.ReadAsStringAsync();
-
-
-                        
                     }
                     
                 }
@@ -104,6 +125,8 @@ namespace HotelManager.Application.Features.LocationReport.CreateReport
         {
             public int HotelCount { get; set; }
             public int PhoneCount { get; set; }
-        }
+            public required string ReportDocumentId { get; set; }
+            public required List<GetAllHotelsQueryResponse> Hotels { get; set; }
+    }
     }
 }

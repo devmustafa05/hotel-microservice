@@ -3,11 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using ReportService.Persistence.Context;
 using ReportService.Persistence.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReportService.Persistence
 {
