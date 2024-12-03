@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ReportService.Application.DTOs;
+using ReportService.Application.DTOs.ResultLocationReport;
 using ReportService.Application.ExternalServices;
 using ReportService.Application.Services.ReportService;
+using System.ComponentModel;
 
 namespace ReportService.Api.Controllers
 {
@@ -17,9 +19,17 @@ namespace ReportService.Api.Controllers
         {
             this.reportService = reportService;
             this.locationService = locationService;
-        }   
+        }
 
         [HttpGet]
+        public async Task<IActionResult> GetReports()
+        {
+            var response = await reportService.GetReports();
+            return Ok(response);
+        }
+
+
+        [HttpGet("/locations")]
         public async Task<IActionResult> GetLocations()
         {
             var response = await locationService.GetLocation();
@@ -40,13 +50,11 @@ namespace ReportService.Api.Controllers
             //locationUrl = string.IsNullOrWhiteSpace(locationUrl) ? "/api/Report/GetReport" : locationUrl;
             //var response = await externalApiService.PostDataAsync<CreteLocationRequestDto>(locationUrl, request);
 
+            var response = await reportService.UpdateLocationReportDetail(request);
+
             var ssTest = request;
-            return Ok();
+            return Ok(response);
         }
-        public class ResultLocationReportDto
-        {
-            public int HotelCount { get; set; }
-            public int PhoneCount { get; set; }
-        }
+       
     }
 }

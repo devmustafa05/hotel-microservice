@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MassTransit;
 using ReportService.Api.Message;
-using ReportService.Application.MessageBroker.RabbitMq.Producers;
 using MassTransit.Transports;
 using ReportService.Application.ExternalServices;
 using Microsoft.Extensions.Configuration;
