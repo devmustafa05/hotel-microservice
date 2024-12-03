@@ -8,6 +8,10 @@
 
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Elastic\" />
+	</ItemGroup>
+
 	<PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

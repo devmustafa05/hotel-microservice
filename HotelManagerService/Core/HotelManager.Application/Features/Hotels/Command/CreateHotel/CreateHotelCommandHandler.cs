@@ -22,7 +22,7 @@ namespace HotelManager.Application.Features.Hotels.Command.CreateHotel
         {   
             mapper.Map<HotelOfficial , HotelOfficialCreationRequest>(new List<HotelOfficialCreationRequest>());
             mapper.Map<HotelContact, HotelContactCreationRequest>(new List<HotelContactCreationRequest>());
-            mapper.Map<HotelLocationContact, HotelLocationContactCreationRequest>(new List<HotelLocationContactCreationRequest>());
+           
 
             var hotel = mapper.Map<Hotel, CreateHotelCommandRequest>(request);
             var queryableHotels = await unitOfWork.GetReadRepostory<Hotel>()
@@ -32,6 +32,22 @@ namespace HotelManager.Application.Features.Hotels.Command.CreateHotel
 
             await unitOfWork.GetWriteRepostory<Hotel>().AddAsync(hotel);
             var result = await unitOfWork.SaveAsync();
+
+            if(result > 0 && request.LocationIds != null)
+            {
+                foreach (var locationId in request.LocationIds)
+                {
+                    await unitOfWork.GetWriteRepostory<ContactLocationMapping>().AddAsync(new()
+                    {
+                        HotelId = hotel.Id,
+                        LocationId = locationId
+
+                    });
+                }
+                result = await unitOfWork.SaveAsync();
+            }
+
+            // RoleBac yapılması gerekiyor
 
             if (result <= 0)
             {

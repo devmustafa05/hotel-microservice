@@ -1,4 +1,5 @@
 ﻿using HotelManager.Application.DTOs.Hotels;
+using HotelManager.Application.Features.Hotels.Query.GetAllHotels;
 using HotelManager.Application.Interfaces.AutoMapper;
 using HotelManager.Application.Interfaces.UnitOfWorks;
 using HotelManager.Domain.Entities;
@@ -20,24 +21,32 @@ namespace HotelManager.Application.Features.Hotels.Query.GetHotelById
         public async Task<GetHotelByIdQueryResponse> Handle(GetHotelByIdQueryRequest request, CancellationToken cancellationToken)
         {
             var hotel = await unitofWork.GetReadRepostory<Hotel>().GetAsync(
-            predicate: x => x.IsActive && !x.IsDeleted
-                          && x.Id == request.HotelId,
+              predicate: x => x.IsActive && !x.IsDeleted
+                            && x.Id == request.HotelId,
                include: q => q
-               .Include(h => h.HotelOfficials)
-               .Include(h => h.HotelContacts)
-               .Include(h => h.HotelLocationContacts));
+                .Include(h => h.HotelOfficials)
+                .Include(h => h.ContactLocationMappings)
+                .ThenInclude(h => h.Location)
+                .Include(h => h.HotelContacts));
 
             mapper.Map<HotelOfficialDto, HotelOfficial>(new List<HotelOfficial>());
             mapper.Map<HotelContactsDto, HotelContact>(new List<HotelContact>());
-            mapper.Map<HotelLocationContactDto, HotelLocationContact>(new List<HotelLocationContact>());
-
             var map = mapper.Map<GetHotelByIdQueryResponse, Hotel>(hotel);
-
-            if (map == null)
+  
+            if (hotel != null && hotel.ContactLocationMappings != null)
             {
-                throw new NotFoundException("Hotel not found");
+                map.Locations = new List<LocationDto>();
+                foreach (var contactLocationMapping in hotel.ContactLocationMappings)
+                {
+                    map.Locations.Add(
+                        new LocationDto()
+                        {
+                            Name = contactLocationMapping.Location.Name,
+                            Latitude = contactLocationMapping.Location.Latitude,
+                            Longitude = contactLocationMapping.Location.Longitude
+                        });
+                }
             }
-
             return map;
         }
     }

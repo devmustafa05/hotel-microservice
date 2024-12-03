@@ -26,6 +26,9 @@ namespace HotelManager.Application.Features.LocationReport.CreateReport
         {
             try
             {
+
+                // bu ethod basdan yazılacak
+
                 var message = context.Message;
                 var deneme = message;
 
@@ -33,7 +36,7 @@ namespace HotelManager.Application.Features.LocationReport.CreateReport
                         predicate: x => x.IsActive && !x.IsDeleted
                                    && x.LocationId == message.LocationId);
 
-                var hotelLocationContactIds = contactLocationMapping.Select(s => s.HotelLocationContactId).ToList();
+                var hotelLocationContactIds = contactLocationMapping.Select(s => s.HotelId).ToList();
 
                 var hotelLocationContacts = await unitofWork.GetReadRepostory<HotelLocationContact>()
                                                     .GetAllAsync(predicate: x => x.IsActive && !x.IsDeleted
@@ -58,8 +61,7 @@ namespace HotelManager.Application.Features.LocationReport.CreateReport
                                        && hotelIds.Contains(x.Id),
                            include: q => q
                             .Include(h => h.HotelOfficials)
-                            .Include(h => h.HotelContacts)
-                           .Include(h => h.HotelLocationContacts));
+                            .Include(h => h.HotelContacts));
 
                 await unitofWork.GetWriteRepostory<Hotel>().AddARangAsync(hotels);
 

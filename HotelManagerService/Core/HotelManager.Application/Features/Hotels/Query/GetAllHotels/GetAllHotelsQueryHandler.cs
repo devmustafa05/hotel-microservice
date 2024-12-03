@@ -22,16 +22,36 @@ namespace HotelManager.Application.Features.Hotels.Query.GetAllHotels
               predicate: x => x.IsActive && !x.IsDeleted,
                include: q => q
                 .Include(h => h.HotelOfficials)
-                .Include(h => h.HotelContacts)
-                .Include(h => h.HotelLocationContacts));
-
-            await unitofWork.GetWriteRepostory<Hotel>().AddARangAsync(hotels);
+                .Include(h => h.ContactLocationMappings)
+                .ThenInclude(h => h.Location)
+                .Include(h => h.HotelContacts));
 
              mapper.Map<HotelOfficialDto, HotelOfficial>(new List<HotelOfficial>());
              mapper.Map<HotelContactsDto, HotelContact>(new List<HotelContact>());
-             mapper.Map<HotelLocationContactDto, HotelLocationContact>(new List<HotelLocationContact>());
-
+           
             var map = mapper.Map<GetAllHotelsQueryResponse, Hotel>(hotels);
+            var contactLocationMappings = hotels.SelectMany(s => s.ContactLocationMappings);
+
+            // TODO:auto mapper will be done
+            foreach (var mapHotel in map)
+            {
+                var hotel = hotels.FirstOrDefault(x => x.Id == mapHotel.Id);
+                if (hotel != null && hotel.ContactLocationMappings != null)
+                {
+                    mapHotel.Locations = new List<LocationDto>();
+                    foreach (var contactLocationMapping in hotel.ContactLocationMappings)
+                    {
+                        mapHotel.Locations.Add(
+                            new LocationDto()
+                            {
+                                Name = contactLocationMapping.Location.Name,
+                                Latitude = contactLocationMapping.Location.Latitude,
+                                Longitude = contactLocationMapping.Location.Longitude
+                            });
+                    }
+                }
+            }
+
             return map;
         }
     }

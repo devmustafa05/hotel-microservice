@@ -23,9 +23,7 @@ namespace HotelManager.Application.Features.Hotels.Command.DeleteHotel
                           && x.Id == request.Id,
              include: q => q
               .Include(h => h.HotelOfficials)
-              .Include(h => h.HotelContacts)
-              .Include(h => h.HotelLocationContacts));
-
+              .Include(h => h.HotelContacts));
 
             if (hotel == null)
             {
@@ -46,11 +44,8 @@ namespace HotelManager.Application.Features.Hotels.Command.DeleteHotel
                 await unitofwork.GetWriteRepostory<HotelContact>().SoftDeleteRangeAsync(hotelContacts);
             }
 
-            var hotelLocationContacts = hotel.HotelLocationContacts.ToList();
-            if (hotelLocationContacts is not null && hotelLocationContacts.Count() > 0)
-            {
-                await unitofwork.GetWriteRepostory<HotelLocationContact>().SoftDeleteRangeAsync(hotelLocationContacts);
-            }
+            // mapping tablosundan silme yapılabilir
+            
             var result = await unitofwork.SaveAsync();
 
             if (result <= 0)

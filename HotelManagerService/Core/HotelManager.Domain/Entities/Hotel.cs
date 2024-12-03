@@ -26,6 +26,10 @@ namespace HotelManager.Domain.Entities
         public decimal Longitude { get; set; }
         public  ICollection<HotelOfficial> HotelOfficials { get; set; }
         public ICollection<HotelContact> HotelContacts { get; set; }
-        public ICollection<HotelLocationContact> HotelLocationContacts { get; set; }
+        public ICollection<ContactLocationMapping> ContactLocationMappings { get; set; }
+
+        // TODO: Mustafa
+        // When transitioning to version 3.0, this section will be activated.
+        // public ICollection<HotelLocationContact> HotelLocationContacts { get; set; }
     }
 }
