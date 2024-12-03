@@ -4,8 +4,8 @@ using HotelManager.Application.Features.Hotels.Command.UpdateHotel;
 using HotelManager.Application.Features.Hotels.Query.GetAllHotels;
 using HotelManager.Application.Features.Hotels.Query.GetHotelById;
 using MediatR;
-
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace HotelManager.Api.Controllers
 {
@@ -14,7 +14,7 @@ namespace HotelManager.Api.Controllers
     public class HotelController : ControllerBase
     {
         private readonly IMediator mediator;
-
+       
         public HotelController(IMediator mediator)
         {
             this.mediator = mediator;
@@ -23,7 +23,8 @@ namespace HotelManager.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllHotels()
         {
-            var response = await mediator.Send(new GetAllHotelsQueryRequest());
+            Log.Information("This is a test log for Elasticsearch.");
+             var response = await mediator.Send(new GetAllHotelsQueryRequest());
             return Ok(response);
         }
 

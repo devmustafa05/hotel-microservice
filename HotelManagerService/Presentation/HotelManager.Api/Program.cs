@@ -7,9 +7,11 @@ using HotelManager.Infrastructure;
 using HotelManager.Api;
 using GreenPipes;
 using HotelManager.Application.Features.LocationReport.CreateReport;
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
+configureLogging();
 
 // Add services to the container.
 
@@ -30,7 +32,7 @@ builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<CreateReportMessageConsumer>(context =>
     {
-      
+
     });
 
     x.UsingRabbitMq((context, cfg) =>
@@ -72,9 +74,21 @@ if (app.Environment.IsDevelopment())
 }
 
 app.ConfigureExceptionHandlingMiddleware();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
+
+
+void configureLogging()
+{
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile(
+                $"appsettings.{environment}.json", optional: true
+            ).Build();
+
+         Log.Logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(configuration) 
+        .CreateLogger();
+}
