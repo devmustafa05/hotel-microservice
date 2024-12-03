@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace ReportService.Application.Services.ReportService
 {
-    public interface IReportService
-    {   
-        Task<bool> CreteLocationReport(CreteLocationRequestDto creteLocationRequest);
-        Task<bool> CreteLocationRequest(CreteLocationReportPostDto request);
+    public interface ILocationService
+    {
+        Task<List<LocationDto>> GetLocation();
     }
 }

@@ -1,17 +1,15 @@
-﻿using MongoDB.Bson;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReportService.Application.DTOs
+namespace HotelManager.Application.DTOs.Messaging
 {
-    public class CreteLocationRequestDto
+    public class CreateReporMessageCommandDto
     {
         public int LocationId { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
-
     }
 }

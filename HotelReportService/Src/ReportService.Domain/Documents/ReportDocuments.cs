@@ -8,13 +8,14 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Runtime.CompilerServices;
 using MongoDB.Bson.Serialization;
+using ReportService.Domain.Enums;
 
 namespace ReportService.Domain.Documents
 {  
     public class ReportDocuments : BaseDocument, IBaseDocument
     {
-        public required string LocationContactName { get; set; }
-        public required string LocationContactPhone { get; set; }
-        public required string LocationContactEmail { get; set; }
+        public required string Name { get; set; }
+        public ReportDocumentStatuType ReportDocumentStatuType { get; set; }
+        public required ReportRequestParameters ReportRequestParameters { get; set; }
     }
 }

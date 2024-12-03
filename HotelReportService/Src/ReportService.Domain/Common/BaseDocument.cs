@@ -12,6 +12,10 @@ namespace ReportService.Domain.Common
     {
         [BsonId]
         public ObjectId Id { get; set; }
+        public int AddByUserId { get; set; }
+        public int? UpdatedByUserId { get; set; }
+        public string CreatedDate { get; set; }
+        public string? UpdatedDate { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
     }
