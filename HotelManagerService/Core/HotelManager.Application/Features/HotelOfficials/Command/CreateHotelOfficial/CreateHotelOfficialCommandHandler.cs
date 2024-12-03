@@ -1,15 +1,7 @@
-﻿using HotelManager.Application.DTOs.Hotels;
-using HotelManager.Application.Features.Hotels.Command.CreateHotel;
-using HotelManager.Application.Features.Hotels.Rules;
-using HotelManager.Application.Interfaces.AutoMapper;
+﻿using HotelManager.Application.Interfaces.AutoMapper;
 using HotelManager.Application.Interfaces.UnitOfWorks;
 using HotelManager.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelManager.Application.Features.HotelOfficials.Command.CreateHotelOfficial
 {

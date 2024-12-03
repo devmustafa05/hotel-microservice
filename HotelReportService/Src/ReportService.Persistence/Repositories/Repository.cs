@@ -1,41 +1,47 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using ReportService.Domain.Common;
 using ReportService.Persistence.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ReportService.Persistence.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class, IBaseDocument, new()
     {
         private readonly MongoDbContext _dbContext;
         private readonly IMongoCollection<T> _collection;
+        private readonly int UserId;
 
         public Repository(MongoDbContext dbContext)
         {
             _dbContext = dbContext;
-            _collection = _dbContext.GetCollection<T>(); 
+            _collection = _dbContext.GetCollection<T>();
+            this.UserId = 1;
         }
-
-        // ID ile veri getirme
+ 
         public async Task<T> GetByIdAsync(ObjectId id)
         {
-            var filter = Builders<T>.Filter.Eq("Id", id); // Id'yi dinamik olarak alıyoruz
+            var filter = Builders<T>.Filter.Eq("Id", id); 
             return await _collection.Find(filter).FirstOrDefaultAsync();
         }
-
-        // Tüm verileri getirme
+        
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _collection.Find(_ => true).ToListAsync();
         }
-
-        // Yeni veri ekleme
-        public async Task<bool> CreateAsync(T entity)
+       
+        public async Task<T?> CreateAsync(T entity)
         {
+            entity.AddByUserId = UserId;
+            entity.CreatedDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+            entity.IsActive = true;
+            entity.IsDeleted = false;
+
             await _collection.InsertOneAsync(entity);
 
             var id = entity.GetType().GetProperty("Id")?.GetValue(entity);
@@ -43,23 +49,32 @@ namespace ReportService.Persistence.Repositories
             {
                 var filter = Builders<T>.Filter.Eq("Id", id);
                 var exists = await _collection.Find(filter).FirstOrDefaultAsync();
-                return exists != null;
+                return exists;
             }
-            return false;
+            return null;
         }
-
-        // Veriyi güncelleme
         public async Task UpdateAsync(ObjectId id, T entity)
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
             await _collection.ReplaceOneAsync(filter, entity);
         }
-
-        // Veriyi silme
         public async Task DeleteAsync(ObjectId id)
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
             await _collection.DeleteOneAsync(filter);
+        }
+        public async Task<IEnumerable<T>> SortAsync<TKey>(
+            Expression<Func<T, TKey>> keySelector, bool ascending = true)
+        {
+            var field = new StringFieldDefinition<T>(keySelector.Body.ToString().Split('.').Last());
+            var sortDefinition = ascending
+                ? Builders<T>.Sort.Ascending(field)
+                : Builders<T>.Sort.Descending(field);
+
+            return await _collection
+                .Find(FilterDefinition<T>.Empty)
+                .Sort(sortDefinition)
+                .ToListAsync();
         }
     }
 }
