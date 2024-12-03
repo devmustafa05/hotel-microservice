@@ -19,13 +19,14 @@ namespace HotelManager.Application.Features.LocationReport.CreateReport
             CreateReporMessageCommandDto messsageCommand = new CreateReporMessageCommandDto()
             {
                 LocationId = request.LocationId,
+                ReportDocumentId = request.ReportDocumentId,
                 Latitude = request.Latitude,
                 Longitude = request.Longitude,
             };
            
             await commandMessageSenderService.SendMessageAsync(messsageCommand, request.QueueName);
 
-            return null;
+            return new CreateReportMessageCommandResponse() { Success = true};
         }
     }
 }

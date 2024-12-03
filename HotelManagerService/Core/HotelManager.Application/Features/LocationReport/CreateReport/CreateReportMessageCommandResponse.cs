@@ -8,5 +8,6 @@ namespace HotelManager.Application.Features.LocationReport.CreateReport
 {
     public class CreateReportMessageCommandResponse
     {
+        public bool Success { get; set; }
     }
 }
