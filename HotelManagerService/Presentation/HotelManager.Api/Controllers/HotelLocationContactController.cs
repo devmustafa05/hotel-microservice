@@ -18,12 +18,13 @@ namespace HotelManager.Api.Controllers
         {
             this.mediator = mediator;
         }
-        [HttpGet]
-        public async Task<IActionResult> GetAllHotelLocationContactContacts()
-        {
-            var response = await mediator.Send(new GetAllHotelLocationContactsQueryRequest());
-            return Ok(response);
-        }
+
+        //[HttpGet]
+        //public async Task<IActionResult> GetAllHotelLocationContact()
+        //{
+        //    var response = await mediator.Send(new GetAllHotelLocationContactsQueryRequest());
+        //    return Ok(response);
+        //}
 
         //[HttpGet]
         //public async Task<IActionResult> GetLocationContactById(int id)

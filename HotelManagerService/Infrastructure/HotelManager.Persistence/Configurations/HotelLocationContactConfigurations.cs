@@ -53,7 +53,7 @@ namespace HotelManager.Persistence.Configurations
             hotelLocationContact2.AddByUserId = 1;
             hotelLocationContact2.CreatedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, 0, DateTimeKind.Local);
 
-            builder.HasData(hotelLocationContact, hotelLocationContact2);
+           // builder.HasData(hotelLocationContact, hotelLocationContact2);
         }
     }
 }

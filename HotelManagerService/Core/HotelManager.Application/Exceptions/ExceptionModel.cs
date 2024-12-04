@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace HotelManager.Application.Exceptions
 {
@@ -16,7 +11,6 @@ namespace HotelManager.Application.Exceptions
             return JsonConvert.SerializeObject(this);
         }
     }
-
     public class ErrorStatusCode
     {
         public int StatusCode { get; set; }

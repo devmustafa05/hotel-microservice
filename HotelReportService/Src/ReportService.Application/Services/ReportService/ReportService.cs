@@ -111,13 +111,12 @@ namespace ReportService.Application.Services.ReportService
                 {
                     Id = cs.Id,
                     HotelContactType = cs.HotelContactType,
-                    // HotelContactType = HotelContactType.PhoneNumber,
                     Content = cs.Content
                 }).ToList(),
 
-                HotelLocationContacts = s.HotelLocationContacts.Select(ls => new ReportDocumensHotelLocationContact()
+                HotelLocationContacts = s.Locations.Select(ls => new ReportDocumensHotelLocationContact()
                 {
-                    Id = ls.Id,
+                    Id = 0,
                     Name = ls.Name,
                     Latitude = ls.Latitude,
                     Longitude = ls.Longitude
@@ -129,9 +128,7 @@ namespace ReportService.Application.Services.ReportService
             reportDocument.PhoneCount = updatedLocationReport.PhoneCount;
             reportDocument.ReportHotels = reportDocumensHotels;
             await hotelRepository.UpdateAsync(reportDocumentId, reportDocument);
-
-
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

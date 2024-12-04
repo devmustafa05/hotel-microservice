@@ -16,6 +16,6 @@ namespace ReportService.Application.DTOs.ResultLocationReport
         public double Longitude { get; set; }
         public List<HotelOfficialDto> HotelOfficials { get; set; }
         public List<HotelContactsDto> HotelContacts { get; set; }
-        public List<HotelLocationContactDto> HotelLocationContacts { get; set; }
+        public List<HotelLocationContactDto> Locations { get; set; }
     }
 }

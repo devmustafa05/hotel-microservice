@@ -46,13 +46,7 @@ namespace ReportService.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> ResultLocationReport(ResultLocationReportDto request)
         {
-            //var locationUrl = "/api/Report/GetReport";
-            //locationUrl = string.IsNullOrWhiteSpace(locationUrl) ? "/api/Report/GetReport" : locationUrl;
-            //var response = await externalApiService.PostDataAsync<CreteLocationRequestDto>(locationUrl, request);
-
             var response = await reportService.UpdateLocationReportDetail(request);
-
-            var ssTest = request;
             return Ok(response);
         }
        
