@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HotelManager.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241204013301_initialDatabase")]
-    partial class initialDatabase
+    [Migration("20241204015829_initial-database")]
+    partial class initialdatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,7 @@ namespace HotelManager.Persistence.Migrations
                         {
                             Id = 1,
                             AddByUserId = 1,
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Adana"
@@ -74,7 +74,7 @@ namespace HotelManager.Persistence.Migrations
                         {
                             Id = 2,
                             AddByUserId = 1,
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Adıyaman"
@@ -83,7 +83,7 @@ namespace HotelManager.Persistence.Migrations
                         {
                             Id = 3,
                             AddByUserId = 1,
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Afyonkarahisar"
@@ -134,18 +134,6 @@ namespace HotelManager.Persistence.Migrations
                     b.HasIndex("LocationId");
 
                     b.ToTable("ContactLocationMappings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AddByUserId = 1,
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
-                            HotelId = 1,
-                            IsActive = true,
-                            IsDeleted = false,
-                            LocationId = 1
-                        });
                 });
 
             modelBuilder.Entity("HotelManager.Domain.Entities.District", b =>
@@ -194,7 +182,7 @@ namespace HotelManager.Persistence.Migrations
                             Id = 1,
                             AddByUserId = 1,
                             CityId = 2,
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "AdanaDistrict"
@@ -259,7 +247,7 @@ namespace HotelManager.Persistence.Migrations
                         {
                             Id = 1,
                             AddByUserId = 1,
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             Description = "Havuzlu Villalı Suit Her Şey Dahil",
                             IsActive = true,
                             IsDeleted = false,
@@ -272,7 +260,7 @@ namespace HotelManager.Persistence.Migrations
                         {
                             Id = 2,
                             AddByUserId = 1,
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             Description = "Havuzlu Villalı Suit Her Şey Dahil",
                             IsActive = true,
                             IsDeleted = false,
@@ -335,7 +323,7 @@ namespace HotelManager.Persistence.Migrations
                             Id = 1,
                             AddByUserId = 1,
                             Content = "905412045792",
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             HotelContactType = 1,
                             HotelId = 1,
                             IsActive = true,
@@ -346,7 +334,7 @@ namespace HotelManager.Persistence.Migrations
                             Id = 2,
                             AddByUserId = 1,
                             Content = "mustafa_yener05@hotmail.com",
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             HotelContactType = 2,
                             HotelId = 2,
                             IsActive = true,
@@ -462,7 +450,7 @@ namespace HotelManager.Persistence.Migrations
                             Id = 1,
                             AddByUserId = 1,
                             CorporateTitle = "Müdür",
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             HotelId = 1,
                             IsActive = true,
                             IsDeleted = false,
@@ -474,7 +462,7 @@ namespace HotelManager.Persistence.Migrations
                             Id = 2,
                             AddByUserId = 1,
                             CorporateTitle = "Müdür2",
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             HotelId = 1,
                             IsActive = true,
                             IsDeleted = false,
@@ -539,7 +527,7 @@ namespace HotelManager.Persistence.Migrations
                             Id = 1,
                             AddByUserId = 1,
                             CityId = 1,
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             DistrictId = 1,
                             IsActive = true,
                             IsDeleted = false,
@@ -552,7 +540,7 @@ namespace HotelManager.Persistence.Migrations
                             Id = 2,
                             AddByUserId = 1,
                             CityId = 1,
-                            CreatedDate = new DateTime(2024, 12, 4, 4, 33, 0, 0, DateTimeKind.Local),
+                            CreatedDate = new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local),
                             DistrictId = 1,
                             IsActive = true,
                             IsDeleted = false,
