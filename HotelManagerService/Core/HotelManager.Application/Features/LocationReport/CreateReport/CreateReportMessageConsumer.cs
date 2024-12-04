@@ -6,8 +6,11 @@ using HotelManager.Application.Interfaces.UnitOfWorks;
 using HotelManager.Domain.Entities;
 using HotelManager.Domain.Enums;
 using MassTransit;
+using MassTransit.Mediator;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Serilog;
 using System.Net;
 using System.Text;
 
@@ -17,109 +20,100 @@ namespace HotelManager.Application.Features.LocationReport.CreateReport
     {
         IUnitOfWork unitofWork;
         IMapper mapper;
+        
         public CreateReportMessageConsumer(IUnitOfWork unitofWork, IMapper mapper)
         {
             this.unitofWork = unitofWork;
             this.mapper = mapper;
-        }
+            
+    }
         public async Task Consume(ConsumeContext<CreateReporMessageCommandDto> context)
         {
             try
             {
-
-                // bu ethod basdan yazılacak
-
                 var message = context.Message;
                 var deneme = message;
 
-                var contactLocationMapping = await unitofWork.GetReadRepostory<ContactLocationMapping>().GetAllAsync(
-                        predicate: x => x.IsActive && !x.IsDeleted
-                                   && x.LocationId == message.LocationId);
-
-                var hotelLocationContactIds = contactLocationMapping.Select(s => s.HotelId).ToList();
-
-                var hotelLocationContacts = await unitofWork.GetReadRepostory<HotelLocationContact>()
-                                                    .GetAllAsync(predicate: x => x.IsActive && !x.IsDeleted
-                                                     && hotelLocationContactIds.Contains(x.Id));
-
-
-                var hotelIds = hotelLocationContacts.GroupBy(s => s.HotelId).Select(s => s.Key).ToList();
-
-                var hotelContactPhoneNumber = unitofWork.GetReadRepostory<HotelContact>().GetAllAsync(
-                        predicate: x => x.IsActive && !x.IsDeleted
-                                    && hotelIds.Contains(x.HotelId)
-                                    && x.HotelContactType == HotelContactType.PhoneNumber).Result;
-
-                var phoneNumbers = hotelContactPhoneNumber.GroupBy(s => s.Content).Select(s => s.Key).ToList();
-
-                var hotelCount = hotelIds.Count();
-                var PhoneNumberCount = phoneNumbers.Count();
-
+                var contactLocationMappings = await unitofWork.GetReadRepostory<ContactLocationMapping>().GetAllAsync(
+                      predicate: x => x.IsActive && !x.IsDeleted
+                                 && x.LocationId == message.LocationId);
 
                 var hotels = await unitofWork.GetReadRepostory<Hotel>().GetAllAsync(
-                          predicate: x => x.IsActive && !x.IsDeleted
-                                       && hotelIds.Contains(x.Id),
-                           include: q => q
-                            .Include(h => h.HotelOfficials)
-                            .Include(h => h.HotelContacts));
-
-                await unitofWork.GetWriteRepostory<Hotel>().AddARangAsync(hotels);
+                     predicate: x => x.IsActive && !x.IsDeleted,
+                      include: q => q
+                       .Include(h => h.HotelOfficials)
+                       .Include(h => h.ContactLocationMappings)
+                       .ThenInclude(h => h.Location)
+                       .Include(h => h.HotelContacts));
 
                 mapper.Map<HotelOfficialDto, HotelOfficial>(new List<HotelOfficial>());
                 mapper.Map<HotelContactsDto, HotelContact>(new List<HotelContact>());
-                mapper.Map<HotelLocationContactDto, HotelLocationContact>(new List<HotelLocationContact>());
 
-                var map = mapper.Map<GetAllHotelsQueryResponse, Hotel>(hotels);
-                var mapHotels = map.ToList();
+                var hotelsMap = mapper.Map<GetAllHotelsQueryResponse, Hotel>(hotels);
 
-
-                try
+                // TODO:auto mapper will be done
+                foreach (var mapHotel in hotelsMap)
                 {
-                    string endpoint = "/api/LocationReport/ResultLocationReport";
-                    ReportResultDto reportResult = new ReportResultDto()
+                    var hotel = hotels.FirstOrDefault(x => x.Id == mapHotel.Id);
+                    if (hotel != null && hotel.ContactLocationMappings != null)
                     {
-                        Hotels = mapHotels,
-                        ReportDocumentId = message.ReportDocumentId,
-                        HotelCount = hotelCount,
-                        PhoneCount = phoneNumbers.Count()
-                    };
-                    reportResult.HotelCount = hotelCount;
-                    reportResult.PhoneCount = phoneNumbers.Count();
-
-                    var serializedPayload = JsonConvert.SerializeObject(reportResult);
-                    var requestMessage = new HttpRequestMessage(HttpMethod.Post, endpoint)
-                    {
-                        Content = new StringContent(serializedPayload, Encoding.UTF8, "application/json")
-                    };
-
-                    HttpClient httpClient = new HttpClient();
-                    string baseAddress = "http://localhost:8001";
-                    httpClient.BaseAddress = new Uri(baseAddress);
-                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer your_token");
-
-                    HttpResponseMessage response = await httpClient.SendAsync(requestMessage);
-
-                    if (response.StatusCode == HttpStatusCode.OK && response.IsSuccessStatusCode)
-                    {
-                        var responseMessage = await response.Content.ReadAsStringAsync();
+                        mapHotel.Locations = new List<LocationDto>();
+                        foreach (var contactLocationMapping in hotel.ContactLocationMappings)
+                        {
+                            mapHotel.Locations.Add(
+                                new LocationDto()
+                                {
+                                    Name = contactLocationMapping.Location.Name,
+                                    Latitude = contactLocationMapping.Location.Latitude,
+                                    Longitude = contactLocationMapping.Location.Longitude
+                                });
+                        }
                     }
-                    
                 }
-                catch (Exception ex)
+
+                var hotelContacts = hotelsMap
+                            .Where(hotel => hotel.HotelContacts != null) 
+                            .SelectMany(hotel => hotel.HotelContacts); 
+
+                var phoneNumberCount =  hotelContacts.Where(x => x.HotelContactType == HotelContactType.PhoneNumber).Count();
+
+                string endpoint = "/api/LocationReport/ResultLocationReport";
+                ReportResultDto reportResult = new ReportResultDto()
                 {
-                    var ssTest = ex;
+                    Hotels = hotelsMap.ToList(),
+                    ReportDocumentId = message.ReportDocumentId,
+                    HotelCount = hotelsMap.ToList().Count(),
+                    PhoneCount = phoneNumberCount
+                };
+
+                var serializedPayload = JsonConvert.SerializeObject(reportResult);
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, endpoint)
+                {
+                    Content = new StringContent(serializedPayload, Encoding.UTF8, "application/json")
+                };
+
+                HttpClient httpClient = new HttpClient();
+                string baseAddress = "http://localhost:8001";
+                httpClient.BaseAddress = new Uri(baseAddress);
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer your_token");
+
+                HttpResponseMessage response = await httpClient.SendAsync(requestMessage);
+
+                if (response.StatusCode == HttpStatusCode.OK && response.IsSuccessStatusCode)
+                {
+                    var responseMessage = await response.Content.ReadAsStringAsync();
+                    Log.Error($"CreateReportMessageConsumer /api/LocationReport/ResultLocationReport : {responseMessage}");
                 }
-
-
             }
             catch (Exception exception)
             {
-                var ssDeneme = exception;
+                Log.Error("This is a CreateReportMessageConsumer HTTP Request: Exception: {ExceptionMessage}, InnerException: {InnerException}, StackTrace: {StackTrace}",
+                  exception.Message,
+                  exception.InnerException,
+                  exception.StackTrace);
                 throw;
             }
-           
         }
-
 
         public class ReportResultDto
         {
@@ -127,6 +121,6 @@ namespace HotelManager.Application.Features.LocationReport.CreateReport
             public int PhoneCount { get; set; }
             public required string ReportDocumentId { get; set; }
             public required List<GetAllHotelsQueryResponse> Hotels { get; set; }
-    }
+        }
     }
 }
