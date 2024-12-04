@@ -23,8 +23,15 @@ namespace HotelManager.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllHotels()
         {
+
+            // throw new Exception("Teasdasdsa");
+
             Log.Information("This is a test log for Elasticsearch.");
-             var response = await mediator.Send(new GetAllHotelsQueryRequest());
+            var response = await mediator.Send(new GetAllHotelsQueryRequest());
+
+            
+
+           // var response = await mediator.Send(new GetAllHotelsQueryRequest());
             return Ok(response);
         }
 

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using SendGrid.Helpers.Errors.Model;
+using Serilog;
 
 
 
@@ -9,8 +10,7 @@ namespace HotelManager.Application.Exceptions
     public class ExceptionMiddleware : IMiddleware
     {
         public async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)
-        {
-            // TODO: Mustafa burada birde elestic yapabiliriz
+        {   
             try
             {
                 await next(httpContext);
@@ -28,8 +28,6 @@ namespace HotelManager.Application.Exceptions
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = statusCode;
 
-            // httpContext.Request.Path
-
             if (exception.GetType() == typeof(ValidationException))
             {
                 return httpContext.Response.WriteAsync(new ExceptionModel
@@ -39,11 +37,12 @@ namespace HotelManager.Application.Exceptions
                 }.ToString());
             }
 
+            HandleExceptionSeriLogAsync(httpContext, exception);
+
             List<string> errors = new()
             {
-                $"Error Message: {exception.Message}",
-                // TODO: Mustafa bunu elestic e loglıcam
-                $"Error Description: {exception.InnerException?.ToString()}"
+                $"Error Message: {exception.Message}"
+                // $"Error Description: {exception.InnerException?.ToString()}"
             };
 
             return httpContext.Response.WriteAsync(new ExceptionModel()
@@ -51,9 +50,17 @@ namespace HotelManager.Application.Exceptions
                 Errors = errors,
                 StatusCode = statusCode
             }.ToString());
-
         }
 
+        private static void HandleExceptionSeriLogAsync(HttpContext httpContext, Exception exception)
+        {
+            Log.Error("This is a test log for Elasticsearch. HTTP Request: {RequestPath}, HTTP Method: {RequestMethod}, Exception: {ExceptionMessage}, InnerException: {InnerException}, StackTrace: {StackTrace}",
+                   httpContext.Request.Path, 
+                   httpContext.Request.Method,
+                   exception.Message, 
+                   exception.InnerException, 
+                   exception.StackTrace);
+        }
         private static int GetStatusCode(Exception exception) =>
            exception switch
            {
