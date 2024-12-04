@@ -51,6 +51,8 @@ builder.Services.AddMassTransit(x =>
 
         cfg.ReceiveEndpoint(reportServisQueue, e =>
         {
+            e.PrefetchCount = 1;
+            e.UseMessageRetry(x => x.Interval(2, 500));
             // e.Consumer<CreateReporMessageCommandConsumer>();
             e.Consumer<CreateReportMessageConsumer>(context);
         });
