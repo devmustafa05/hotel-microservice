@@ -33,7 +33,7 @@ namespace HotelManager.Persistence.Configurations
             contactLocationMapping.AddByUserId = 1;
             contactLocationMapping.CreatedDate = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day, currentDate.Hour, currentDate.Minute, 0, DateTimeKind.Local);
 
-            builder.HasData(contactLocationMapping);
+           // builder.HasData(contactLocationMapping);
         }
     }
 }

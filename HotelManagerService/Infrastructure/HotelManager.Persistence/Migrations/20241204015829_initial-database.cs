@@ -243,9 +243,9 @@ namespace HotelManager.Persistence.Migrations
                 columns: new[] { "Id", "AddByUserId", "CreatedDate", "IsActive", "IsDeleted", "Name", "UpdatedByUserId", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), true, false, "Adana", null, null },
-                    { 2, 1, new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), true, false, "Adıyaman", null, null },
-                    { 3, 1, new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), true, false, "Afyonkarahisar", null, null }
+                    { 1, 1, new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), true, false, "Adana", null, null },
+                    { 2, 1, new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), true, false, "Adıyaman", null, null },
+                    { 3, 1, new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), true, false, "Afyonkarahisar", null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -253,22 +253,22 @@ namespace HotelManager.Persistence.Migrations
                 columns: new[] { "Id", "AddByUserId", "CreatedDate", "Description", "IsActive", "IsDeleted", "Latitude", "LocationName", "Longitude", "Name", "UpdatedByUserId", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), "Havuzlu Villalı Suit Her Şey Dahil", true, false, 0m, "İstanbul Merkez Hacı Osman", 0m, "Antalya Suit Otel", null, null },
-                    { 2, 1, new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), "Havuzlu Villalı Suit Her Şey Dahil", true, false, 0m, "İstanbul Merkez Hacı Osman", 0m, "İstanbul Suit Otel", null, null }
+                    { 1, 1, new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), "Havuzlu Villalı Suit Her Şey Dahil", true, false, 0m, "İstanbul Merkez Hacı Osman", 0m, "Antalya Suit Otel", null, null },
+                    { 2, 1, new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), "Havuzlu Villalı Suit Her Şey Dahil", true, false, 0m, "İstanbul Merkez Hacı Osman", 0m, "İstanbul Suit Otel", null, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Districts",
                 columns: new[] { "Id", "AddByUserId", "CityId", "CreatedDate", "IsActive", "IsDeleted", "Name", "UpdatedByUserId", "UpdatedDate" },
-                values: new object[] { 1, 1, 2, new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), true, false, "AdanaDistrict", null, null });
+                values: new object[] { 1, 1, 2, new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), true, false, "AdanaDistrict", null, null });
 
             migrationBuilder.InsertData(
                 table: "HotelContacts",
                 columns: new[] { "Id", "AddByUserId", "Content", "CreatedDate", "HotelContactType", "HotelId", "IsActive", "IsDeleted", "UpdatedByUserId", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, 1, "905412045792", new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), 1, 1, true, false, null, null },
-                    { 2, 1, "mustafa_yener05@hotmail.com", new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), 2, 2, true, false, null, null }
+                    { 1, 1, "905412045792", new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), 1, 1, true, false, null, null },
+                    { 2, 1, "mustafa_yener05@hotmail.com", new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), 2, 2, true, false, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -276,8 +276,8 @@ namespace HotelManager.Persistence.Migrations
                 columns: new[] { "Id", "AddByUserId", "CorporateTitle", "CreatedDate", "HotelId", "IsActive", "IsDeleted", "Name", "SurName", "UpdatedByUserId", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, 1, "Müdür", new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), 1, true, false, "Mustafa", "Yener", null, null },
-                    { 2, 1, "Müdür2", new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), 1, true, false, "Mustafa2", "Yener2", null, null }
+                    { 1, 1, "Müdür", new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), 1, true, false, "Mustafa", "Yener", null, null },
+                    { 2, 1, "Müdür2", new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), 1, true, false, "Mustafa2", "Yener2", null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -285,14 +285,9 @@ namespace HotelManager.Persistence.Migrations
                 columns: new[] { "Id", "AddByUserId", "CityId", "CreatedDate", "DistrictId", "IsActive", "IsDeleted", "Latitude", "Longitude", "Name", "UpdatedByUserId", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), 1, true, false, 3542m, 5542m, "LocationName", null, null },
-                    { 2, 1, 1, new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), 1, true, false, 3542m, 5542m, "LocationName2", null, null }
+                    { 1, 1, 1, new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), 1, true, false, 3542m, 5542m, "LocationName", null, null },
+                    { 2, 1, 1, new DateTime(2024, 12, 4, 4, 58, 0, 0, DateTimeKind.Local), 1, true, false, 3542m, 5542m, "LocationName2", null, null }
                 });
-
-            migrationBuilder.InsertData(
-                table: "ContactLocationMappings",
-                columns: new[] { "Id", "AddByUserId", "CreatedDate", "HotelId", "HotelLocationContactId", "IsActive", "IsDeleted", "LocationId", "UpdatedByUserId", "UpdatedDate" },
-                values: new object[] { 1, 1, new DateTime(2024, 12, 4, 4, 54, 0, 0, DateTimeKind.Local), 1, null, true, false, 1, null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ContactLocationMappings_HotelId",
