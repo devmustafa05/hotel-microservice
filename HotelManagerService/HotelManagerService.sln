@@ -19,7 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelManager.Persistence", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelManager.Api", "Presentation\HotelManager.Api\HotelManager.Api.csproj", "{51361921-236B-4CDE-BB8D-4B56AE926041}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManager.Infrastructure", "Infrastructure\HotelManager.Infrastructure\HotelManager.Infrastructure.csproj", "{9757E6E8-7666-4827-B081-7B53E12B7754}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelManager.Infrastructure", "Infrastructure\HotelManager.Infrastructure\HotelManager.Infrastructure.csproj", "{9757E6E8-7666-4827-B081-7B53E12B7754}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{A32E4021-3945-4246-88A2-1FF230D0A41C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManager.API.Tests", "Test\HotelManager.API.Tests\HotelManager.API.Tests.csproj", "{92EAB99F-43DF-4CD4-8BB4-21DFCE9647B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,10 @@ Global
 		{9757E6E8-7666-4827-B081-7B53E12B7754}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9757E6E8-7666-4827-B081-7B53E12B7754}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9757E6E8-7666-4827-B081-7B53E12B7754}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92EAB99F-43DF-4CD4-8BB4-21DFCE9647B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92EAB99F-43DF-4CD4-8BB4-21DFCE9647B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92EAB99F-43DF-4CD4-8BB4-21DFCE9647B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92EAB99F-43DF-4CD4-8BB4-21DFCE9647B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +70,7 @@ Global
 		{61C9E8A0-8B1C-4AFE-A905-12321C331EF3} = {97CA873A-80C2-4FB7-8E8C-2C47B8B96EF3}
 		{51361921-236B-4CDE-BB8D-4B56AE926041} = {2294B0A7-7D70-466A-BDF8-4F576817F25C}
 		{9757E6E8-7666-4827-B081-7B53E12B7754} = {97CA873A-80C2-4FB7-8E8C-2C47B8B96EF3}
+		{92EAB99F-43DF-4CD4-8BB4-21DFCE9647B9} = {A32E4021-3945-4246-88A2-1FF230D0A41C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {897E7AAF-79B1-4DB9-9B93-C448D2D81BAD}
