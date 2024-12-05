@@ -9,14 +9,14 @@ namespace HotelManager.API.Tests
     public class HotelControllerTest
     {
 
-        private Mock<IMediator> _mockMediator;
-        private HotelController _controller;
+        private Mock<IMediator> mockMediator;
+        private HotelController controller;
 
         [SetUp]
         public void SetUp()
         {
-            _mockMediator = new Mock<IMediator>();
-            _controller = new HotelController(_mockMediator.Object);
+            mockMediator = new Mock<IMediator>();
+            controller = new HotelController(mockMediator.Object);
         }
 
         [Test]
@@ -27,11 +27,11 @@ namespace HotelManager.API.Tests
 
             // Mock Mediator to return expected hotels
 
-            _mockMediator.Setup(m => m.Send(It.IsAny<GetAllHotelsQueryRequest>(), It.IsAny<CancellationToken>()))
+            mockMediator.Setup(m => m.Send(It.IsAny<GetAllHotelsQueryRequest>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(expectedHotels);
 
             // Act
-            var result = await _controller.GetAllHotels();
+            var result = await controller.GetAllHotels();
 
             // Assert
             var okResult = result as OkObjectResult;
