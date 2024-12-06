@@ -17,6 +17,7 @@ The project
 * RabbitMq
 * Api Gateway
 * Ocelot
+* NUnit Test
 
 * ESK(Elastic-Serilog-Kibana)
 * JWT
