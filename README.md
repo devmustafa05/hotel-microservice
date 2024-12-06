@@ -28,3 +28,18 @@ The project
  4.  Api Gateway **`http://localhost:5001/swagger`**
 
 ## **Prerequisites**
+* PostgreSQL 
+* MongoDB 
+* Elastic and Kibana
+* RabbitMQ
+
+
+How MigrationDatabase Installation
+
+In the **`HotelManager`** application, the update-database command is executed in the Persistence 
+A docker-compose file is available for **`PostgreSQL`**, **`MongoDB`**, **`Elastic`**, and RabbitMQ.
+
+
+
+
+  
