@@ -22,3 +22,9 @@ The project
 * JWT
 
   ## **How ​​Hotel Micro Service Works**
+ 1.  Postman is essential for microservice applications, or you can use Swagger to review the endpoints.
+ 2.  Hotel managerservice **`http://localhost:6001/oauth/token`**
+ 3.  Report Service **`http:localhost:8001/`**
+ 4.  Api Gateway **`http://localhost:5001/swagger`**
+
+## **Prerequisites**
