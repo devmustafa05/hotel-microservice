@@ -40,6 +40,11 @@ How MigrationDatabase Installation
 In the **`HotelManager`** application, the update-database command is executed in the Persistence 
 A docker-compose file is available for **`PostgreSQL`**, **`MongoDB`**, **`Elastic`**, and RabbitMQ.
 
+## **Notes**
+1. All applications must be run from development specified in launchSettings.json
+
+
+
 
 
 
